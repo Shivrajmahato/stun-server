@@ -1,0 +1,28 @@
+[Unit]
+Description=Python RFC 5389 STUN Server
+Documentation=https://www.rfc-editor.org/rfc/rfc5389
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=stun
+Group=stun
+WorkingDirectory=/opt/stun-server
+Environment=STUN_HOST=0.0.0.0
+Environment=STUN_PORT=3478
+Environment=STUN_METRICS_HOST=127.0.0.1
+Environment=STUN_METRICS_PORT=8080
+ExecStart=/opt/stun-server/.venv/bin/python /opt/stun-server/app.py --config /etc/stun-server/config.toml
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/stun-server
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+
+[Install]
+WantedBy=multi-user.target

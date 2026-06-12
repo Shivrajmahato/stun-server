@@ -1,0 +1,15 @@
+services:
+  stun-server:
+    build: .
+    image: python-rfc5389-stun:latest
+    container_name: stun-server
+    restart: unless-stopped
+    environment:
+      STUN_HOST: "0.0.0.0"
+      STUN_PORT: "3478"
+      STUN_METRICS_HOST: "0.0.0.0"
+      STUN_METRICS_PORT: "8080"
+      STUN_RATE_LIMIT_PER_MINUTE: "600"
+    ports:
+      - "3478:3478/udp"
+      - "8080:8080/tcp"
